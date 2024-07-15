@@ -9,6 +9,7 @@ class TemperatureConverterApp extends StatelessWidget {
       title: 'Temperature Converter',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: TemperatureConverter(),
     );
@@ -54,8 +55,9 @@ class _TemperatureConverterState extends State<TemperatureConverter> {
         title: Text('Temperature Converter'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -86,6 +88,9 @@ class _TemperatureConverterState extends State<TemperatureConverter> {
               controller: _controller,
               decoration: InputDecoration(
                 labelText: 'Enter temperature',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
               ),
               keyboardType: TextInputType.number,
             ),
@@ -93,19 +98,29 @@ class _TemperatureConverterState extends State<TemperatureConverter> {
             ElevatedButton(
               onPressed: _convertTemperature,
               child: Text('Convert'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 15.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
             ),
             SizedBox(height: 20.0),
             Text(
               'Converted Value: $_convertedValue',
-              style: TextStyle(fontSize: 20.0),
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
             ),
             SizedBox(height: 20.0),
             Expanded(
               child: ListView.builder(
                 itemCount: _conversionHistory.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(_conversionHistory[index]),
+                  return Card(
+                    margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 0),
+                    child: ListTile(
+                      title: Text(_conversionHistory[index]),
+                    ),
                   );
                 },
               ),
