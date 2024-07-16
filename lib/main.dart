@@ -8,7 +8,7 @@ class TemperatureConverterApp extends StatelessWidget {
     return MaterialApp(
       title: 'Temperature Converter',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.teal,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: TemperatureConverter(),
@@ -36,11 +36,11 @@ class _TemperatureConverterState extends State<TemperatureConverter> {
       if (_conversionType == 'F to C') {
         result = (inputTemp - 32) * 5 / 9;
         conversion =
-            'F to C: ${inputTemp.toStringAsFixed(2)} ➔ ${result.toStringAsFixed(2)}';
+        'F to C: ${inputTemp.toStringAsFixed(2)} ➔ ${result.toStringAsFixed(2)}';
       } else {
         result = (inputTemp * 9 / 5) + 32;
         conversion =
-            'C to F: ${inputTemp.toStringAsFixed(2)} ➔ ${result.toStringAsFixed(2)}';
+        'C to F: ${inputTemp.toStringAsFixed(2)} ➔ ${result.toStringAsFixed(2)}';
       }
 
       _convertedValue = result.toStringAsFixed(2);
@@ -54,78 +54,99 @@ class _TemperatureConverterState extends State<TemperatureConverter> {
       appBar: AppBar(
         title: Text('Temperature Converter'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Radio(
-                  value: 'F to C',
-                  groupValue: _conversionType,
-                  onChanged: (value) {
-                    setState(() {
-                      _conversionType = value.toString();
-                    });
-                  },
-                ),
-                Text('Fahrenheit to Celsius'),
-                Radio(
-                  value: 'C to F',
-                  groupValue: _conversionType,
-                  onChanged: (value) {
-                    setState(() {
-                      _conversionType = value.toString();
-                    });
-                  },
-                ),
-                Text('Celsius to Fahrenheit'),
-              ],
-            ),
-            TextField(
-              controller: _controller,
-              decoration: InputDecoration(
-                labelText: 'Enter temperature',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.teal, Colors.tealAccent],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Radio(
+                    value: 'F to C',
+                    groupValue: _conversionType,
+                    onChanged: (value) {
+                      setState(() {
+                        _conversionType = value.toString();
+                      });
+                    },
+                  ),
+                  Text('Fahrenheit to Celsius', style: TextStyle(color: Colors.white)),
+                  Radio(
+                    value: 'C to F',
+                    groupValue: _conversionType,
+                    onChanged: (value) {
+                      setState(() {
+                        _conversionType = value.toString();
+                      });
+                    },
+                  ),
+                  Text('Celsius to Fahrenheit', style: TextStyle(color: Colors.white)),
+                ],
               ),
-              keyboardType: TextInputType.number,
-            ),
-            SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: _convertTemperature,
-              child: Text('Convert'),
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 15.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+              TextField(
+                controller: _controller,
+                decoration: InputDecoration(
+                  labelText: 'Enter temperature',
+                  labelStyle: TextStyle(color: Colors.white),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white.withOpacity(0.3),
                 ),
+                keyboardType: TextInputType.number,
+                style: TextStyle(color: Colors.white),
               ),
-            ),
-            SizedBox(height: 20.0),
-            Text(
-              'Converted Value: $_convertedValue',
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 20.0),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _conversionHistory.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 0),
-                    child: ListTile(
-                      title: Text(_conversionHistory[index]),
+              SizedBox(height: 20.0),
+              MouseRegion(
+                onEnter: (_) => setState(() {}),
+                onExit: (_) => setState(() {}),
+                child: ElevatedButton(
+                  onPressed: _convertTemperature,
+                  child: Text('Convert', style: TextStyle(color: Colors.white)),
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(vertical: 15.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                  );
-                },
+                    backgroundColor: Colors.white.withOpacity(0.3),
+                    textStyle: TextStyle(fontSize: 18.0),
+                    elevation: 5.0,
+                  ),
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: 20.0),
+              Text(
+                'Converted Value: $_convertedValue',
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20.0),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _conversionHistory.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      color: Colors.white.withOpacity(0.3),
+                      margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 0),
+                      child: ListTile(
+                        title: Text(_conversionHistory[index], style: TextStyle(color: Colors.teal)),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
